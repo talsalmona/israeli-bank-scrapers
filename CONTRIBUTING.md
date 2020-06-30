@@ -11,7 +11,7 @@ Any kind of help is welcome, even if you just discover an issue and don't have t
 While there's no specific template for creating a new issue, please take the time to create a clear description so that it is easy to understand the problem.
 
 ## Testing the scrapers
-In order to run tests you need first to create test configuration file `./tests/tests-config.js` from template `./test/tests-config.tpl.js`. This file will be used by `jest` testing framework. 
+In order to run tests you need first to create test configuration file `./tests/tests-config.js` from template `./test/tests-config.tpl.js`. This file will be used by `jest` testing framework.
 
 > IMPORTANT: Under `tests` library exists `.gitignore` file that ignore the test configuration file thus this file will not be commited to github. Still when you create new PRs make sure that you didn't explicitly added it to the PR.
 
@@ -21,10 +21,10 @@ This library supports both testing against credit card companies / banks api and
 Modify property `options` in the test configuration file. This object is passed as-is to the scraper.
 
 ### Testing specific companies
-Enable any company you wish to test by providing its credetials in the test configuration file under `credentials` property. 
+Enable any company you wish to test by providing its credetials in the test configuration file under `credentials` property.
 
 ### Running tests from CLI
-> Before running any tests, make sure you created the test configuration file with relevant credentials, 
+> Before running any tests, make sure you created the test configuration file with relevant credentials,
 
 To run all tests of companies that you provided credentials to:
 ```
@@ -39,24 +39,24 @@ npm test -- --testNamePattern="Leumi legacy scraper"
 To run specific `test`, use the `testNamePattern` arg with suite name following the test name. The following will run test `should expose login fields in scrapers constant` that is part of `Leumi legacy scraper` suite.
 ```
 npm test -- --testNamePattern="Leumi legacy scraper should expose login fields in scrapers constant"
-``` 
+```
 
 ### Running tests using IDE
-Many IDEs support running jest tests directly from the UI. In webstorm for example a small play icon automatically appears next to each describe/test. 
+Many IDEs support running jest tests directly from the UI. In webstorm for example a small play icon automatically appears next to each describe/test.
 
-**IMPORTANT Note** babel is configured to ignore tests by default. You must add an environment variable `BABEL_ENV=test` to the IDE test configuration to allow the tests to work. 
+**IMPORTANT Note** babel is configured to ignore tests by default. You must add an environment variable `BABEL_ENV=test` to the IDE test configuration to allow the tests to work.
 
 ### save unit test scraper results into file
 To save unit test scraper results provide a valid path in test configurations property `excelFilesDist`, for example:
 
 ```
 {
-   companyAPI: { 
-      enabled: true, 
+   companyAPI: {
+      enabled: true,
       excelFilesDist: '/Users/xyz/Downloads/Transactions',
-      
+
     },
-  
+
 }
 ```
 
@@ -113,7 +113,7 @@ Make sure that you uncommented the company credentials in the test configuration
 #### Where is the playground CLI scripts that were here few versions ago?
 The playground scripts were ok at the time and allowed us to develop and test scrapers. Since then we added new types of scrapers with different public api and we needed a better solution that will catch up with those changes.
 
-In addition, the playground was offering an encryption of the passwords which lead to false sense of security since the private key was held in the source codes. Anyone could easily find the private key and decrypt those passwords. The new approach better reflect the standard way by providing a template file and ignoring the user specific configuration file . The developer "sees" the file and review its' PRs which should provide better understanding of what is going on. 
+In addition, the playground was offering an encryption of the passwords which lead to false sense of security since the private key was held in the source codes. Anyone could easily find the private key and decrypt those passwords. The new approach better reflect the standard way by providing a template file and ignoring the user specific configuration file . The developer "sees" the file and review its' PRs which should provide better understanding of what is going on.
 
 ## Submitting PRs
 Again, no template, but please try to create something of the form:
@@ -127,8 +127,8 @@ Changes:
 ```
 
 ##  Publish `israeli-bank-scrapers-core` to NPM.
-1. Make sure everything is committed. 
-2. Run `npm run prepare:core`. The script will change the name inside `package.json` to `prepare-israeli-bank-scrapers-core`, change puppeteer dependency to `puppeteer-core`, reinstall dependencies and rebuild the library. 
+1. Make sure everything is committed.
+2. Run `npm run prepare:core`. The script will change the name inside `package.json` to `prepare-israeli-bank-scrapers-core`, change puppeteer dependency to `puppeteer-core`, reinstall dependencies and rebuild the library.
 3. Run `npm publish`. This will publish `prepare-israeli-bank-scrapers-core` package.
 4. Run `npm run reset` to reset the changes.
 
@@ -186,7 +186,7 @@ You can override this async function however way you want, as long as your retur
       status: string //can either be 'completed' or 'pending'
     }],
   }],
-  errorType: "invalidPassword"|"changePassword"|"timeout"|"generic", // only on success=false
+  errorType: "INVALID_PASSWORD"|"CHANGE_PASSWORD"|"ACCOUNT_BLOCKED"|"UNKNOWN_ERROR"|"TIMEOUT"|"GENERIC", // only on success=false
   errorMessage: string, // only on success=false
 }
 ```

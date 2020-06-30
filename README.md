@@ -42,10 +42,10 @@ const options = {...};
    try {
       const scraper = createScraper(options);
       const scrapeResult = await scraper.scrape(credentials);
-   
+
       if (scrapeResult.success) {
         scrapeResult.accounts.forEach((account) => {
-           console.log(`found ${account.txns.length} transactions for account number 
+           console.log(`found ${account.txns.length} transactions for account number
             ${account.accountNumber}`);
         });
       }
@@ -66,7 +66,7 @@ The definition of the `options` object is as follows:
   showBrowser: boolean, // shows the browser while scraping, good for debugging (default false)
   verbose: boolean, // include more debug info about in the output
   browser : Browser, // optional option from init puppeteer browser instance outside the libary scope. you can get browser diretly from puppeteer via `puppeteer.launch()` command.
-  executablePath: string // optional. provide a patch to local chromium to be used by puppeteer. Relevant when using `israeli-bank-scrapers-core` library 
+  executablePath: string // optional. provide a patch to local chromium to be used by puppeteer. Relevant when using `israeli-bank-scrapers-core` library
 }
 ```
 The structure of the result object is as follows:
@@ -92,7 +92,7 @@ The structure of the result object is as follows:
       status: string //can either be 'completed' or 'pending'
     }],
   }],
-  errorType: "invalidPassword"|"changePassword"|"timeout"|"generic", // only on success=false
+  errorType: "INVALID_PASSWORD"|"CHANGE_PASSWORD"|"ACCOUNT_BLOCKED"|"UNKNOWN_ERROR"|"TIMEOUT"|"GENERIC", // only on success=false
   errorMessage: string, // only on success=false
 }
 ```
@@ -118,26 +118,26 @@ This library is currently deployed to NPM manually and not as part of automatic 
 If you are a developer and want to access the `next` version, install the library with `next` tag as shown below:
 ```sh
 npm install israeli-bank-scrapers@next --save
-```  
+```
 
-> Keep in mind that although this `next` version should be stable as it passed our code review, it was deployed automatically using github action workflow without the usual tests we run manually before we deploy the official version.  
+> Keep in mind that although this `next` version should be stable as it passed our code review, it was deployed automatically using github action workflow without the usual tests we run manually before we deploy the official version.
 
 # `Israeli-bank-scrapers-core` library
 
-> TL;DR this is the same library as the default library. The only difference is that it is using `puppeteer-core` instead of `puppeteer` which is useful if you are using frameworks like Electron to pack your application. 
+> TL;DR this is the same library as the default library. The only difference is that it is using `puppeteer-core` instead of `puppeteer` which is useful if you are using frameworks like Electron to pack your application.
 >
 > In most cases you will probably want to use the default library (read [Getting Started](#getting-started) section).
 
 Israeli bank scrapers library is published  twice:
  1. [israeli-bank-scrapers](https://www.npmjs.com/package/israeli-bank-scrapers) - the default variation, great for common usage as node dependency in server application or cli.
- 2. [israeli-bank-scrapers-core](https://www.npmjs.com/package/israeli-bank-scrapers-core) - extremely useful for applications that bundle `node_modules` like Electron applications. 
- 
+ 2. [israeli-bank-scrapers-core](https://www.npmjs.com/package/israeli-bank-scrapers-core) - extremely useful for applications that bundle `node_modules` like Electron applications.
+
  ## Differences between default and core variations
-  
- The default variation [israeli-bank-scrapers](https://www.npmjs.com/package/israeli-bank-scrapers) is using [puppeteer](https://www.npmjs.com/package/puppeteer) which handles the installation of local chroumium on its' own. This behavior is very handy since it takes care on all the hard work figuring which chromium to download and manage the actual download process.  As a side effect it increases node_modules by several hounded megabytes. 
- 
- The core variation [israeli-bank-scrapers-core](https://www.npmjs.com/package/israeli-bank-scrapers-core) is using [puppeteer-core](https://www.npmjs.com/package/puppeteer-core) which is exactly the same library as `puppeteer` except that it doesn't download chromium when installed by npm. It is up to you to make sure the specific version of chromium is installed locally and provide a path to that version. It is useful in Electron applications since it doesn't bloat the size of the application and you can provide a much friendlier experience like loading the application and download it later when needed. 
- 
+
+ The default variation [israeli-bank-scrapers](https://www.npmjs.com/package/israeli-bank-scrapers) is using [puppeteer](https://www.npmjs.com/package/puppeteer) which handles the installation of local chroumium on its' own. This behavior is very handy since it takes care on all the hard work figuring which chromium to download and manage the actual download process.  As a side effect it increases node_modules by several hounded megabytes.
+
+ The core variation [israeli-bank-scrapers-core](https://www.npmjs.com/package/israeli-bank-scrapers-core) is using [puppeteer-core](https://www.npmjs.com/package/puppeteer-core) which is exactly the same library as `puppeteer` except that it doesn't download chromium when installed by npm. It is up to you to make sure the specific version of chromium is installed locally and provide a path to that version. It is useful in Electron applications since it doesn't bloat the size of the application and you can provide a much friendlier experience like loading the application and download it later when needed.
+
  To install `israeli-bank-scrapers-core`:
 ```sh
 npm install israeli-bank-scrapers-core --save
@@ -149,7 +149,7 @@ When using the `israeli-bank-scrapers-core` it is up to you to make sure the rel
 2. make sure that you have local version of that revision.
 3. provide an absolute path to `israeli-bank-scrapers-core` scrapers.
 
-Please read the following to learn more about the process: 
+Please read the following to learn more about the process:
 1. To get the required chromium revision use the following code:
 ```
 import { getPuppeteerConfig } from 'israeli-bank-scrapers-core';
@@ -158,8 +158,8 @@ const chromiumVersion = getPuppeteerConfig().chromiumRevision;
 ```
 
 2. Once you have the chromium revision, you can either download it manually or use other liraries like [download-chromium](https://www.npmjs.com/package/download-chromium) to fetch that version. The mentioned library is very handy as it caches the download and provide useful helpers like download progress information.
- 
- 3. provide the path to chromium to the library using the option key `executablePath`. 
+
+ 3. provide the path to chromium to the library using the option key `executablePath`.
 
 # Specific definitions per scraper
 
